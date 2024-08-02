@@ -1,0 +1,7 @@
+geopy
+folium
+plotly
+cufflinks
+geocoder
+streamlit_lottie
+streamlit_folium
