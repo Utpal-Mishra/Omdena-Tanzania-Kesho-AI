@@ -3,6 +3,12 @@
 import streamlit as st
 import pandas as pd
 
+# !conda install -c conda-forge geopy --yes
+from geopy.geocoders import Nominatim
+
+import folium
+from streamlit_folium import folium_static
+
 print('\nLibraries Imported\n')
 
 ###########################################
@@ -36,11 +42,39 @@ def app():
         data.drop(data.columns[[0]], axis=1, inplace=True)
         data['Region'] = data['Region'].apply(lambda x: x.title())
         
-        data = data.groupby(['Region', 'Council', 'Ward']).mean()
+        data = data.groupby(['Region', 'Council', 'Ward']).mean().reset_index()
         data['Population'] = data['Population'].astype(int)
-        
         st.dataframe(data)
         
     with tab2:
         
-        st.write("Weather Analysis")
+        ############################################################################################################
+        
+        st.write('')
+        st.write('List of Regions: {}'.format(len(data['Region'].unique())))
+        st.write('Total Population: {}'.format(sum(data['Population'])))
+        
+        ############################################################################################################
+             
+        address = 'Tanzania'
+        geolocator = Nominatim(user_agent="four_square")
+        location = geolocator.geocode(address)
+        latitude = location.latitude
+        longitude = location.longitude
+
+        # Create a folium map
+        Map = folium.Map(location=[latitude, longitude], zoom_start=6)
+       
+        # Optionally add other markers or layers
+        Marker = folium.map.FeatureGroup()
+        # MousePosition().add_to(Map)
+        Map.add_child(folium.LatLngPopup())
+            
+        for idx, row in data.iterrows():
+            folium.Marker([row['Latitude'], 
+                           row['Longitude']], 
+                           popup = "Region: " + row['Region'] + ", Council: " + row['Council']  + ", Council: " + row['Council']).add_to(Map)
+                    
+        folium_static(Map, width = 1200, height = 700)
+            
+        st.divider()
