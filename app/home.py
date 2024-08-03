@@ -20,7 +20,7 @@ from folium.plugins import HeatMap
 from streamlit_folium import folium_static
 
 
-print('\nLibraries Imported\n')
+print('Libraries Imported\n')
 
 ###########################################
    
@@ -67,23 +67,23 @@ def app():
         latitude = location.latitude
         longitude = location.longitude
 
-        # Create a folium map
-        Map = folium.Map(location=[latitude, longitude], zoom_start = 5)
-        folium.Marker([latitude, longitude], popup="Tanzania", icon=folium.Icon(color="red")).add_to(Map)
+        # # Create a folium map
+        # Map = folium.Map(location=[latitude, longitude], zoom_start = 5)
+        # folium.Marker([latitude, longitude], popup="Tanzania", icon=folium.Icon(color="red")).add_to(Map)
         
-        # Optionally add other markers or layers
-        Marker = folium.map.FeatureGroup()
-        # MousePosition().add_to(Map)
-        Map.add_child(folium.LatLngPopup())
+        # # Optionally add other markers or layers
+        # Marker = folium.map.FeatureGroup()
+        # # MousePosition().add_to(Map)
+        # Map.add_child(folium.LatLngPopup())
                  
-        # for idx, row in data.iterrows():
-        #     folium.Marker([row['Latitude'], 
-        #                    row['Longitude']], 
-        #                    popup = "Region: " + row['Region'] + ", Council: " + row['Council']  + ", Ward: " + row['Ward']).add_to(Map)
+        # # for idx, row in data.iterrows():
+        # #     folium.Marker([row['Latitude'], 
+        # #                    row['Longitude']], 
+        # #                    popup = "Region: " + row['Region'] + ", Council: " + row['Council']  + ", Ward: " + row['Ward']).add_to(Map)
                     
-        folium_static(Map)
+        # folium_static(Map)
             
-        st.divider()
+        # st.divider()
         
         ###########################################################################################################
         
@@ -91,8 +91,7 @@ def app():
         
         # Adding a sidebar with select boxes
         st.sidebar.header('Select a Location: ')
-        
-        # Custom CSS to position the text at the bottom right of the sidebar      
+            
         region = st.sidebar.selectbox('Select Region', 
                                     tuple(sorted(set(list(data['Region'])))),
                                     index = None,
@@ -140,7 +139,7 @@ def app():
                                                         
                 try:
                     for i in range(map.shape[0]):
-                        print(i, end = '\t')
+                        
                         # URL = BASEURL + "/current.json?key=" + APIKEY + "&q=" + str(map.Latitude[i]) + str(map.Longitude[i]) + "&aqi=yes"
                         # URL = BASEURL + "/current.json?key=" + APIKEY + "&q=" + map['Ward'][i] + ', ' + map['Council'][i] + ', ' + map['Region'][i] + ', Tanzania' + "&aqi=yes"
                         URL = BASEURL + "/current.json?key=" + APIKEY + "&q=" + ', ' + map['Ward'][i] + map['Council'][i] + map['Region'][i] + ', Tanzania' + "&aqi=yes"
@@ -225,101 +224,3 @@ def app():
                         
         # ############################################################################################################
         
-        # BASEURL = "http://api.weatherapi.com/v1"
-        # # st.write("BASE URL: 'http://api.weatherapi.com/v1")
-        # APIKEY = "6bd51cc56e814b49a4b123504240407" # "316171a92c5d458c85735242213008"
-        # # st.write("API KEY: ------------------------------")
-                            
-        # Region = []
-        # Council = []
-        # Ward = []
-        # Latitude = []
-        # Longitude = []
-        # WindSpeed = []
-        # WindDegree = []
-        # WindDirection = []
-        # Gust = []
-        # Pressure = []
-        # Precipitation = []
-        # Temperature = []
-        # Visibility = []
-        # Humidity = []
-        # Cloud = []
-        # UV = []
-                                                
-        # try:
-        #     for i in range(100):# data.shape[0]):
-        #         print(i, end = '\t')
-        #         # URL = BASEURL + "/current.json?key=" + APIKEY + "&q=" + str(map.Latitude[i]) + str(map.Longitude[i]) + "&aqi=yes"
-        #         # URL = BASEURL + "/current.json?key=" + APIKEY + "&q=" + map['Ward'][i] + ', ' + map['Council'][i] + ', ' + map['Region'][i] + ', Tanzania' + "&aqi=yes"
-        #         URL = BASEURL + "/current.json?key=" + APIKEY + "&q=" + ', ' + map['Ward'][i] + map['Council'][i] + map['Region'][i] + ', Tanzania' + "&aqi=yes"
-        #         response = requests.get(URL) # HTTP request
-                
-        #         dt = response.json()
-
-        #         Ward.append(map['Ward'][i])
-        #         Council.append(map['Council'][i])
-        #         Region.append(map['Region'][i])
-        #         Latitude.append(str(map['Latitude'][i]))
-        #         Longitude.append(str(map['Longitude'][i]))
-        #         WindSpeed.append(str(dt['current']["wind_mph"]))
-        #         WindDegree.append(str(dt['current']["wind_degree"]))
-        #         WindDirection.append(dt['current']["wind_dir"])
-        #         Gust.append(str(dt['current']["gust_mph"]))
-        #         Pressure.append(str(dt['current']["pressure_mb"]))
-        #         Precipitation.append(str(dt['current']["precip_mm"]))
-        #         Temperature.append(str(dt['current']["feelslike_c"]))
-        #         Visibility.append(str(dt['current']["vis_miles"]))
-        #         Humidity.append(str(dt['current']["humidity"]))
-        #         Cloud.append(str(dt['current']["cloud"]))
-        #         UV.append(str(dt['current']["uv"]))
-
-        #     status = pd.DataFrame({'Ward': Ward,
-        #                            'Council': Council,
-        #                            'Region': Region,
-        #                            'Latitude': Latitude,
-        #                            'Longitude': Longitude,
-        #                            'WindSpeed': WindSpeed,
-        #                            'WindDegree': WindDegree,
-        #                            'WindDirection': WindDirection,
-        #                            'Gust': Gust,
-        #                            'Pressure': Pressure,
-        #                            'Precipitation': Precipitation,
-        #                            'Temperature': Temperature,
-        #                            'Visibility': Visibility,
-        #                            'Humidity': Humidity,
-        #                            'Cloud': Cloud,
-        #                            'UV': UV})
-
-        #     # print('Data Shape: ', status.shape)
-        #     # st.dataframe(status.head(20))
-                        
-        #     ############################################################################################################
-                                  
-        #     # Ensure that latitude, longitude, and temperature are numeric
-        #     status['Latitude'] = pd.to_numeric(status['Latitude']) #, errors='coerce')
-        #     status['Longitude'] = pd.to_numeric(status['Longitude']) #, errors='coerce')
-        #     status['Temperature'] = pd.to_numeric(status['Temperature']) #, errors='coerce')
-        #     st.dataframe(status)
-                              
-        #     # Initialize the map centered around the mean of the coordinates
-        #     map_center = [status['Latitude'].mean(), status['Longitude'].mean()]
-            
-        #     map = folium.Map(location = map_center, zoom_start = 5)
-        #     folium.Marker(map_center, popup="Tanzania", icon=folium.Icon(color="red")).add_to(Map)
-
-        #     # Prepare the heatmap data
-        #     heat_data = [[row['Latitude'], row['Longitude'], row['Temperature']] for index, row in status.iterrows()]
-        #     # st.write(heat_data)
-
-        #     # Add the heatmap layer to the map
-        #     HeatMap(heat_data).add_to(map)
-
-        #     # Display the map in Streamlit
-        #     folium_static(map)
-            
-        #     st.divider() 
-            
-        # except:
-                
-        #     st.divider() 
