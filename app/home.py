@@ -44,37 +44,42 @@ def app():
         
         data = data.groupby(['Region', 'Council', 'Ward']).mean().reset_index()
         data['Population'] = data['Population'].astype(int)
-        st.dataframe(data)
+        # st.dataframe(data)
         
     with tab2:
         
         ############################################################################################################
-        
-        st.write('')
-        st.write('List of Regions: {}'.format(len(data['Region'].unique())))
-        st.write('Total Population: {}'.format(sum(data['Population'])))
-        
-        ############################################################################################################
-             
-        address = 'Tanzania'
-        geolocator = Nominatim(user_agent="four_square")
-        location = geolocator.geocode(address)
-        latitude = location.latitude
-        longitude = location.longitude
+                     
+        def folium_map():
+            
+            address = 'Tanzania'
+            geolocator = Nominatim(user_agent="four_square")
+            location = geolocator.geocode(address)
+            latitude = location.latitude
+            longitude = location.longitude
 
-        # Create a folium map
-        Map = folium.Map(location=[latitude, longitude], zoom_start=6)
-       
-        # Optionally add other markers or layers
-        Marker = folium.map.FeatureGroup()
-        # MousePosition().add_to(Map)
-        Map.add_child(folium.LatLngPopup())
+            # Create a folium map
+            Map = folium.Map(location=[latitude, longitude], zoom_start = 5)
+            folium.Marker([latitude, longitude], popup="Tanzania", icon=folium.Icon(color="red")).add_to(Map)
+        
+            # Optionally add other markers or layers
+            Marker = folium.map.FeatureGroup()
+            # MousePosition().add_to(Map)
+            Map.add_child(folium.LatLngPopup())
+            
+            return Map
+        
+        Map = folium_map()
             
         for idx, row in data.iterrows():
             folium.Marker([row['Latitude'], 
                            row['Longitude']], 
-                           popup = "Region: " + row['Region'] + ", Council: " + row['Council']  + ", Council: " + row['Council']).add_to(Map)
+                           popup = "Region: " + row['Region'] + ", Council: " + row['Council']  + ", Ward: " + row['Ward']).add_to(Map)
                     
-        folium_static(Map, width = 1200, height = 700)
+        folium_static(Map)
             
         st.divider()
+        
+        ############################################################################################################
+        
+                
