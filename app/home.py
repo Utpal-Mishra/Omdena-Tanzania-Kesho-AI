@@ -414,4 +414,37 @@ def app():
                 fig.add_trace(go.Scatter(x = [datetime.strptime(dt['location']['localtime'], "%Y-%m-%d %H:%M")], y = [dt['current']['temp_c']], name = 'Current Time', mode='markers',marker = dict(color = 'blue', size = 10)))
                 st.plotly_chart(fig)
                  
+                st.write('')
+                    
+                col1, col2 = st.columns(2)
+                col1.metric(label = "Sunrise",       value = dt['forecast']['forecastday'][i]['astro']['sunrise'])
+                col1.image('SunriseIcon.png', width = 150)
+                col2.metric(label = "Sunset",        value = dt['forecast']['forecastday'][i]['astro']['sunset'])
+                col2.image('SunsetIcon.png', width = 150)
+                    
+                st.write('')
+                    
+                col1, col2, col3, col4, col5 = st.columns(5)
+                uv = {1: 'Low', 2: 'Low', 3: 'Moderate', 4: 'Moderate', 5: 'Moderate', 6: 'High', 7: 'High', 8: 'Very High', 9: 'Very High', 10: 'Very High', '11': 'Extreme'}
+                col1.metric(label = "UV Index",      value = uv[dt['current']["uv"]])
+                col1.image('UVIcon.png', width = 50)
+                col2.metric(label = "Humidity",      value = str(dt['current']["humidity"]) + ' %')
+                col2.image('HumidityIcon.png', width = 50)
+                col3.metric(label = "Precipitation", value = str(dt['current']["precip_in"]) + ' in')
+                col3.image('PrecipitationIcon.png', width = 50)
+                col4.metric(label = "Pressure",      value = str(round(dt['current']["pressure_in"])) + ' inHg')
+                col4.image('PressureIcon.png', width = 50)
+                col5.metric(label = "Wind",          value = str(dt['current']["wind_mph"]) + ' mph')
+                col5.image('WindIcon.png', width = 50)
                 
+                st.write('')
+                                            
+                col1, col2, col3, col4, col5, col6 = st.columns(6)
+                col1.metric(label = "CO",    value = str(round(response.json()['current']["air_quality"]["co"], 2)))
+                col2.metric(label = "NO2",   value = str(round(response.json()['current']["air_quality"]["no2"], 2)))
+                col3.metric(label = "O3",    value = str(round(response.json()['current']["air_quality"]["o3"], 2)))
+                col4.metric(label = "SO2",   value = str(round(response.json()['current']["air_quality"]["so2"], 2)))
+                col5.metric(label = "PM2.5", value = str(round(response.json()['current']["air_quality"]["pm2_5"], 2)))
+                col6.metric(label = "PM10",  value = str(round(response.json()['current']["air_quality"]["pm10"], 2)))
+
+                st.write('')
