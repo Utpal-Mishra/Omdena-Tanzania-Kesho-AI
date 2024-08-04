@@ -27,6 +27,7 @@ import plotly.graph_objects as go
 import plotly.figure_factory as ff
 from plotly.subplots import make_subplots
 
+from twilio.rest import Client
 
 print('Libraries Imported\n')
 
@@ -46,7 +47,7 @@ def app():
     st.title("Omdena - KeshoAI")
     st.header("Omdena Partners with EIT Climate-KIC and Sahara Ventures to Host The First Grassroots AI Climathon Event in Tanzania")
     
-    tab1, tab2, tab3 = st.tabs(["About :information_source:", "Weather Analysis :cloud:", "Weather Report :chart:"])
+    tab1, tab2, tab3, tab4 = st.tabs(["About :information_source:", "Weather Analysis :cloud:", "Weather Report :chart:", "Notifications :bell:"])
  
     ###########################################################################################################
     
@@ -447,4 +448,37 @@ def app():
                 col5.metric(label = "PM2.5", value = str(round(response.json()['current']["air_quality"]["pm2_5"], 2)))
                 col6.metric(label = "PM10",  value = str(round(response.json()['current']["air_quality"]["pm10"], 2)))
 
-                st.write('')
+
+    with tab4:
+        
+        st.title('Send Streamlit SMTP Email 🚀')
+
+        st.markdown("""**Enter Email Details and Share Your View/ Enquiry!**""")
+
+        # Taking inputs
+        email_sender   = st.text_input('From: ')
+        email_receiver = st.text_input('To: ')
+        subject        = st.text_input('Subject: ')
+        body           = st.text_area('Body: ')
+
+        # Hide the password input
+        password = st.text_input('Password: ', type="password", disabled=True)  
+
+        if st.button("Send Email"):
+            try:
+                msg = MIMEText(body)
+                msg['From'] = email_sender
+                msg['To'] = email_receiver
+                msg['Subject'] = subject
+
+                server = smtplib.SMTP('smtp.gmail.com', 587)
+                server.starttls()
+                server.login(st.secrets["email"]["gmail"], st.secrets["email"]["password"])
+                server.sendmail(email_sender, email_receiver, msg.as_string())
+                server.quit()
+
+                st.success('Email Sent Successfully! 🚀')
+            except Exception as e:
+                st.error(f"Failed to Send Email: {e}")
+        
+                                    
