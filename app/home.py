@@ -47,7 +47,7 @@ def app():
     st.title("Omdena - KeshoAI")
     st.header("Omdena Partners with EIT Climate-KIC and Sahara Ventures to Host The First Grassroots AI Climathon Event in Tanzania")
     
-    tab1, tab2, tab3, tab4 = st.tabs(["About :information_source:", "Weather Analysis :cloud:", "Weather Report :chart:", "Notifications :bell:"])
+    tab1, tab2, tab3, tab4 = st.tabs(["About :information_source:", "Weather Analysis :cloud:", "Weather Report :chart:", "Contact :phone:"])
  
     ###########################################################################################################
     
