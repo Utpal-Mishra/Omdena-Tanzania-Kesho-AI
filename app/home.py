@@ -12,6 +12,9 @@ matplotlib.use('TkAgg')
 
 import requests
 
+import time
+from datetime import datetime, timedelta
+
 # !conda install -c conda-forge geopy --yes
 from geopy.geocoders import Nominatim
 
@@ -43,7 +46,7 @@ def app():
     st.title("Omdena - KeshoAI")
     st.header("Omdena Partners with EIT Climate-KIC and Sahara Ventures to Host The First Grassroots AI Climathon Event in Tanzania")
     
-    tab1, tab2 = st.tabs(["About :information_source:", "Weather Analysis :cloud:"])
+    tab1, tab2, tab3 = st.tabs(["About :information_source:", "Weather Analysis :cloud:", "Weather Report :chart:"])
  
     ###########################################################################################################
     
@@ -336,3 +339,79 @@ def app():
         st.plotly_chart(fig)
        
         st.divider()
+        
+    with tab3:
+        
+        Region = []
+        Council = []
+        Ward = []
+        Latitude = []
+        Longitude = []
+        WindSpeed = []
+        WindDegree = []
+        WindDirection = []
+        Gust = []
+        Pressure = []
+        Precipitation = []
+        Temperature = []
+        Visibility = []
+        Humidity = []
+        Cloud = []
+        UV = []
+        
+        if region and council:
+                                          
+            URL = "http://api.weatherapi.com/v1/forecast.json?key=6bd51cc56e814b49a4b123504240407&q=" + council + ", "  + region + ", Tanzania&days=7&aqi=yes&alerts=yes"
+            
+            # HTTP request
+            response = requests.get(URL)
+
+            if response.status_code == 200:
+                
+                dt = response.json()
+                
+                st.write('')
+                col1, col2 = st.columns(2)
+                col1.metric(label = dt['location']['name'] + ', ' + dt['location']['region'], value = str(dt['current']['temp_c']) + " °C", delta = str(round(dt['current']['temp_c'] - dt['current']['feelslike_c'], 2)) + " °C")
+                col2.image('https:' + dt['current']['condition']['icon'], width = 100) # col2.write(dt['current']['condition']['text']) # print(dt['current']["cloud"])
+                    
+                st.write('')
+                    
+                datetime_str = dt['location']['localtime']
+                day = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M").strftime("%A")
+                clock = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M").strftime("%H:%M")
+                st.write(str(dt['forecast']['forecastday'][0]['day']['maxtemp_c']) + '/ ' + str(dt['forecast']['forecastday'][0]['day']['mintemp_c']) + ' Feels Like ' + str(dt['current']['feelslike_c']))
+                st.write(day + str('/ ') + clock) # print(dt['current']['last_updated'])
+                    
+                st.write('')
+                   
+                tm = []
+                temp = []
+                prcp = []
+                    
+                # Forecasting: Present Day - Next 7 Days - D = 0-7
+                for i in range(len(dt['forecast']['forecastday'])): # len(dt['forecast']['forecastday'])
+
+                    for k in range(len(dt['forecast']['forecastday'][i]['hour'])):
+                        
+                        tm.append(datetime.strptime(dt['forecast']['forecastday'][i]['hour'][k]['time'], "%Y-%m-%d %H:%M"))
+                        temp.append(dt['forecast']['forecastday'][i]['hour'][k]['temp_c']) # dt['forecast']['forecastday'][i]['hour'][k]['feelslike_c']
+                        prcp.append(dt['forecast']['forecastday'][i]['hour'][k]["precip_in"])
+ 
+                X = pd.DataFrame({'time': tm, 'temp': temp, 'prcp': prcp})
+                    
+                # Create subplots with secondary y-axis
+                fig = make_subplots(specs=[[{"secondary_y": True}]])
+                fig.add_trace(go.Scatter(x = X['time'], y = X['temp'], name = 'Temperature', mode ='lines+markers', line=dict(color = 'firebrick')), secondary_y = False) #, text=[f"Humidity: {h}" for h in X['humidity']], hoverinfo='text+x+y')
+                fig.add_trace(go.Bar(x = X['time'], y = X['prcp'], name = 'Precipitation', marker = dict(color = 'royalblue')), secondary_y = True)
+
+                # Update layout
+                fig.update_layout(height=500, width=1500, title_text='Temperature and Precipitation Over Time', xaxis_title='Date')
+                fig.update_xaxes(rangeslider_visible = False, showline = True, linewidth = 2, linecolor = 'black', mirror = True)
+                fig.update_yaxes(showline = True, title_text='Temperature (°C)', linewidth = 2, linecolor = 'black', secondary_y=False)
+                fig.update_yaxes(title_text='Precipitation (in)', linewidth = 2, linecolor = 'black', secondary_y=True)
+                  
+                fig.add_trace(go.Scatter(x = [datetime.strptime(dt['location']['localtime'], "%Y-%m-%d %H:%M")], y = [dt['current']['temp_c']], name = 'Current Time', mode='markers',marker = dict(color = 'blue', size = 10)))
+                st.plotly_chart(fig)
+                 
+                
