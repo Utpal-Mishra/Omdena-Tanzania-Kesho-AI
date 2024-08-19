@@ -375,7 +375,7 @@ def app():
                 col1, col2 = st.columns(2)
                 col1.metric(label = dt['location']['name'] + ', ' + dt['location']['region'], value = str(dt['current']['temp_c']) + " °C", delta = str(round(dt['current']['temp_c'] - dt['current']['feelslike_c'], 2)) + " °C")
                 col2.image('https:' + dt['current']['condition']['icon'], width = 100) # col2.write(dt['current']['condition']['text']) # print(dt['current']["cloud"])
-                    
+                                
                 st.write('')
                     
                 datetime_str = dt['location']['localtime']
@@ -447,6 +447,31 @@ def app():
                 col4.metric(label = "SO2",   value = str(round(response.json()['current']["air_quality"]["so2"], 2)))
                 col5.metric(label = "PM2.5", value = str(round(response.json()['current']["air_quality"]["pm2_5"], 2)))
                 col6.metric(label = "PM10",  value = str(round(response.json()['current']["air_quality"]["pm10"], 2)))
+                
+                # Define a function to handle the WhatsApp notification logic
+                def get_whatsapp_number():
+                    st.write("Enter your number: ")
+                    number = st.text_input("WhatsApp Number:")
+                    if st.button("Submit"):
+                        st.session_state.whatsapp_number = number
+                        st.experimental_rerun()
+
+                st.write("")
+                st.write("")
+                
+                # Main app logic
+                if "whatsapp_number" not in st.session_state:
+                    whatsapp_logo_url = "WhatsAppIcon.png"
+
+                    # Layout with columns to align icon and button
+                    col1, col2, col3 = st.columns([2.5, 0.17, 1])
+                    with col2:
+                        st.image(whatsapp_logo_url, width = 30)  # Display the WhatsApp icon
+                    with col3:
+                        if st.button("Notify Me on WhatsApp"):
+                            get_whatsapp_number()
+                else:
+                    st.write(f"You will be notified on WhatsApp at {st.session_state.whatsapp_number}")
 
 
     with tab4:
