@@ -448,30 +448,100 @@ def app():
                 col5.metric(label = "PM2.5", value = str(round(response.json()['current']["air_quality"]["pm2_5"], 2)))
                 col6.metric(label = "PM10",  value = str(round(response.json()['current']["air_quality"]["pm10"], 2)))
                 
-                # Define a function to handle the WhatsApp notification logic
-                def get_whatsapp_number():
-                    st.write("Enter your number: ")
-                    number = st.text_input("WhatsApp Number:")
-                    if st.button("Submit"):
-                        st.session_state.whatsapp_number = number
-                        st.experimental_rerun()
-
-                st.write("")
-                st.write("")
+                ### WhatsApp Notification ---------------------------------------------------------------------------------------------
                 
-                # Main app logic
-                if "whatsapp_number" not in st.session_state:
-                    whatsapp_logo_url = "WhatsAppIcon.png"
+                update = "About Location\nCouncil:{}\nRegion : {}\nCountry: {}\nDate   : {}\nTime   : {}\n\nAbout Weather\nTemperature: {} °C\nPrecipitation: {} in\nHumidity   : {} %\nWind Speed : {} mph\nPressure   : {} inHg\n\nClouds     : {} \nHeat Index : {} °C\nDew Point  : {} °C\nVisibility : {} miles\nGust      : {} mph".format(
+                    dt['location']['name'], 
+                    dt['location']['region'], 
+                    'Tanzania', 
+                    datetime.strptime(datetime_str, "%Y-%m-%d %H:%M").strftime("%Y-%m-%d"),
+                    datetime.strptime(datetime_str, "%Y-%m-%d %H:%M").strftime("%H:%M"), #dt['location']['localtime'], 
+                    dt['current']['temp_c'], 
+                    dt['current']["precip_in"],
+                    dt['current']["humidity"],
+                    dt['current']["wind_mph"], 
+                    dt['current']["pressure_in"], 
+                    dt['current']["condition"]['text'], 
+                    dt['current']['heatindex_c'], 
+                    dt['current']['dewpoint_c'], 
+                    dt['current']["vis_miles"], 
+                    dt['current']["gust_mph"])
+                
+                st.write('')
+                st.write('')
+                st.write('')
+                
+                account_sid = 'AC92ca5d0fb663ff16fc4374cea4f15e98'
+                auth_token = 'afc810efb352d0fa1960837b14d09ec0'
+                # account_sid = os.environ["ACCOUNT_SID"]
+                # auth_token = os.environ["AUTH_TOKEN"]
+                client = Client(account_sid, auth_token)
+                
+                with st.form(key='whatsapp_form'):
+                    user_number = st.text_input('Receive WhatsApp Notifications (Enter Number with Country Code):', placeholder = 'Format Ex: 353XXXXXXXXX')
+                    submit_button = st.form_submit_button(label='Get Notifications')
 
-                    # Layout with columns to align icon and button
-                    col1, col2, col3 = st.columns([2.5, 0.17, 1])
-                    with col2:
-                        st.image(whatsapp_logo_url, width = 30)  # Display the WhatsApp icon
-                    with col3:
-                        if st.button("Notify Me on WhatsApp"):
-                            get_whatsapp_number()
-                else:
-                    st.write(f"You will be notified on WhatsApp at {st.session_state.whatsapp_number}")
+                if submit_button:
+                    
+                    st.info('Notifications Activated for Next 3 Hours', icon="ℹ️")
+                    
+                    if user_number:
+                        
+                        try:
+                            message = client.messages.create(
+                            from_= 'whatsapp:+14155238886',
+                            body = 'Live Weather Status\n\n' + update,
+                            to = 'whatsapp:+' + str(user_number)
+                            )
+                            
+                            message = client.messages.create(
+                            from_= 'whatsapp:+14155238886',
+                            body = 'Weather Forecasting:\nFor Temperature and Precipitation\n\n',
+                            to = 'whatsapp:+' + str(user_number)
+                            )
+                            
+                            time.sleep(1)
+                            
+                            current_time = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M")
+                            # Get the next three hours from the current time
+                            time_intervals = [current_time + timedelta(hours=i) for i in range(3)]
+                            
+                            # Iterate through the time intervals and compare with the DataFrame times
+                            for i in range(len(X)):
+                                data_time = X['time'][i]
+                                if (current_time.date() == data_time.date() and current_time.time() <= data_time.time() < time_intervals[-1].time()):
+                                    # print(data_time.strftime("%H:%M"))
+                                    message = client.messages.create(
+                                    from_= 'whatsapp:+14155238886',
+                                    body = "Date: " + str(data_time.date()) + "\nTime: " + str(data_time.time()) + "\nT: " + str(X['temp'][i]) + " °C\nP: " + str(X['prcp'][i]) + " in\n\n",
+                                    to = 'whatsapp:+' + str(user_number)
+                                    )
+                                    
+                            # st.success('Notifications on the way to your WhatsApp!!')
+                            msg = st.toast('Notifications on the Way!!', icon='🎉')
+                            time.sleep(1)
+                            msg.toast('Notifications on the way!!', icon='🔥')
+                            time.sleep(1)
+                            msg.toast('Notifications on the Way!!', icon='🚀')
+                            
+                        except Exception as e:
+                            st.error(f'Failed to Send Message: {e}')
+                    else:
+                        st.error('Please Enter a Valid WhatsApp Number.')
+                        
+                # # Main app logic
+                # if "whatsapp_number" not in st.session_state:
+                #     whatsapp_logo_url = "WhatsAppIcon.png"
+
+                #     # Layout with columns to align icon and button
+                #     col1, col2, col3 = st.columns([2.5, 0.17, 1])
+                #     with col2:
+                #         st.image(whatsapp_logo_url, width = 30)  # Display the WhatsApp icon
+                #     with col3:
+                #         if st.button("Notify Me on WhatsApp"):
+                #             get_whatsapp_number()
+                # else:
+                #     st.write(f"You will be notified on WhatsApp at {st.session_state.whatsapp_number}")
 
 
     with tab4:
