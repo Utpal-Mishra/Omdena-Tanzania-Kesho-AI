@@ -4,11 +4,6 @@ import streamlit as st
 
 import numpy as np
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-import tkinter
-import matplotlib
-matplotlib.use('TkAgg')
 
 import requests
 
