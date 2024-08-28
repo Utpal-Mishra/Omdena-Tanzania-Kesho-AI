@@ -1,7 +1,7 @@
 # LIBRARIES
 
 import streamlit as st
-
+import os
 import numpy as np
 import pandas as pd
 
@@ -30,8 +30,8 @@ print('Libraries Imported\n')
    
 def app():
         
-            
-        data = pd.read_csv('locations.csv')
+        path = os.path.dirname(__file__)
+        data = pd.read_csv(path+'/locations.csv')
         data.drop(data.columns[[0]], axis=1, inplace=True)
         data['Region'] = data['Region'].apply(lambda x: x.title())
         

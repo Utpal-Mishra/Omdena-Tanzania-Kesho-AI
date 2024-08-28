@@ -4,6 +4,7 @@ import streamlit as st
 
 import numpy as np
 import pandas as pd
+import os
 
 import requests
 
@@ -26,28 +27,29 @@ print('Libraries Imported\n')
 ###########################################
    
 def app():
-                               
-        w23 = pd.read_csv('weather2023.csv')
+        
+        path = os.path.dirname(__file__)
+        w23 = pd.read_csv(path+'/weather2023.csv')
         w23['station_nm'] = w23['station_nm'].apply(lambda x: x.title())  
         w23['date'] = pd.to_datetime(w23['date'], format='%d-%m-%Y').dt.date
         w23['date'] = pd.to_datetime(w23['date'], errors='coerce')
         
-        w22 = pd.read_csv('weather2022.csv')
+        w22 = pd.read_csv(path+'/weather2022.csv')
         w22['station_nm'] = w22['station_nm'].apply(lambda x: x.title())  
         w22['date'] = pd.to_datetime(w22['date'], format='%d-%m-%Y').dt.date
         w22['date'] = pd.to_datetime(w22['date'], errors='coerce')
         
-        w21 = pd.read_csv('weather2021.csv')
+        w21 = pd.read_csv(path+'/weather2021.csv')
         w21['station_nm'] = w21['station_nm'].apply(lambda x: x.title())  
         w21['date'] = pd.to_datetime(w21['date'], format='%d-%m-%Y').dt.date
         w21['date'] = pd.to_datetime(w21['date'], errors='coerce')
         
-        w20 = pd.read_csv('weather2020.csv')
+        w20 = pd.read_csv(path+'/weather2020.csv')
         w20['station_nm'] = w20['station_nm'].apply(lambda x: x.title())  
         w20['date'] = pd.to_datetime(w20['date'], format='%d-%m-%Y').dt.date
         w20['date'] = pd.to_datetime(w20['date'], errors='coerce')
         
-        w19 = pd.read_csv('weather2019.csv')
+        w19 = pd.read_csv(path+'/weather2019.csv')
         w19['station_nm'] = w19['station_nm'].apply(lambda x: x.title())  
         w19['date'] = pd.to_datetime(w19['date'], format='%d-%m-%Y').dt.date
         w19['date'] = pd.to_datetime(w19['date'], errors='coerce')
