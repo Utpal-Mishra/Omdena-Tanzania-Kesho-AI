@@ -4,11 +4,6 @@ import streamlit as st
 
 import numpy as np
 import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-import tkinter
-import matplotlib
-matplotlib.use('TkAgg')
 
 import requests
 
@@ -19,15 +14,12 @@ from datetime import datetime, timedelta
 from geopy.geocoders import Nominatim
 
 import folium
-from folium.plugins import HeatMap, MousePosition, LocateControl
 from streamlit_folium import folium_static
 
 import plotly.express as px
 import plotly.graph_objects as go
 import plotly.figure_factory as ff
 from plotly.subplots import make_subplots
-
-from twilio.rest import Client
 
 print('Libraries Imported\n')
 
