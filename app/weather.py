@@ -275,18 +275,18 @@ def app():
                     st.sidebar.write('')
                     
                     account_sid = 'AC92ca5d0fb663ff16fc4374cea4f15e98'
-                    auth_token = '0abe5abcbd1b392bd5e465c51c3d9f54'
+                    auth_token = 'a23285eab75a9c65aefbdcd75c125d50'
                     # account_sid = os.environ["ACCOUNT_SID"]
                     # auth_token = os.environ["AUTH_TOKEN"]
                     client = Client(account_sid, auth_token)
                     
                     with st.sidebar.form(key='whatsapp_form'):
                         user_number = st.text_input(':bellhop_bell: Receive WhatsApp Notifications (Enter Number with Country Code):', placeholder = 'Format Ex: 353XXXXXXXXX')
-                        submit_button = st.form_submit_button(label='Get Notified')
+                        submit_button = st.form_submit_button(label='Get Notifications')
 
                     if submit_button:
                         
-                        # st.sidebar.info('Notifications Activated for Next 3 Hours', icon="ℹ️")
+                        st.info('Notifications Activated', icon="ℹ️")
                         
                         if user_number:
                             
@@ -328,8 +328,8 @@ def app():
                                 msg.toast('Notifications on the Way!!', icon='🚀')
                                 
                             except Exception as e:
-                                st.sidebar.error(f'Failed to Send Message: {e}')
+                                st.error(f'Failed to Send Message: {e}')
                         else:
-                            st.sidebar.error('Please Enter a Valid WhatsApp Number.')
+                            st.error('Please Enter a Valid WhatsApp Number.')
                     
                         
