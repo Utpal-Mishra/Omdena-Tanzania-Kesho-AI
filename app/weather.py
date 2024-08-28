@@ -65,7 +65,7 @@ def app():
                     
                     # Add LocateControl to the map
         # LocateControl(auto_start=True).add_to(Map)
-        folium_static(Map, width = 1700, height = 750)
+        folium_static(Map, width = 1500, height = 750)
 
         # JavaScript to extract and print user's coordinates
         user_coordinates = """
@@ -251,6 +251,7 @@ def app():
                     X = pd.DataFrame({'time': tm, 'temp': temp, 'prcp': prcp})
                         
                     st.write('')
+                    
                     ### WhatsApp Notification ---------------------------------------------------------------------------------------------
                     
                     update = "About Location\nCouncil:{}\nRegion : {}\nCountry: {}\nDate   : {}\nTime   : {}\n\nAbout Weather\nTemperature: {} °C\nPrecipitation: {} in\nHumidity   : {} %\nWind Speed : {} mph\nPressure   : {} inHg\n\nClouds     : {} \nHeat Index : {} °C\nDew Point  : {} °C\nVisibility : {} miles\nGust      : {} mph".format(
@@ -274,18 +275,18 @@ def app():
                     st.sidebar.write('')
                     
                     account_sid = 'AC92ca5d0fb663ff16fc4374cea4f15e98'
-                    auth_token = 'afc810efb352d0fa1960837b14d09ec0'
+                    auth_token = '0abe5abcbd1b392bd5e465c51c3d9f54'
                     # account_sid = os.environ["ACCOUNT_SID"]
                     # auth_token = os.environ["AUTH_TOKEN"]
                     client = Client(account_sid, auth_token)
                     
                     with st.sidebar.form(key='whatsapp_form'):
-                        user_number = st.text_input(':bellhop_bell: Receive WhatsApp Notifications (Enter Number with Country Code):', placeholder = 'Format: 353XXXXXXXXX')
+                        user_number = st.text_input(':bellhop_bell: Receive WhatsApp Notifications (Enter Number with Country Code):', placeholder = 'Format Ex: 353XXXXXXXXX')
                         submit_button = st.form_submit_button(label='Get Notified')
 
                     if submit_button:
                         
-                        st.sidebar.info('Notifications Activated for Next 3 Hours', icon="ℹ️")
+                        # st.sidebar.info('Notifications Activated for Next 3 Hours', icon="ℹ️")
                         
                         if user_number:
                             
@@ -327,20 +328,8 @@ def app():
                                 msg.toast('Notifications on the Way!!', icon='🚀')
                                 
                             except Exception as e:
-                                st.error(f'Failed to Send Message: {e}')
+                                st.sidebar.error(f'Failed to Send Message: {e}')
                         else:
-                            st.error('Please Enter a Valid WhatsApp Number.')
-                            
-                    # # Main app logic
-                    # if "whatsapp_number" not in st.session_state:
-                    #     whatsapp_logo_url = "WhatsAppIcon.png"
-
-                    #     # Layout with columns to align icon and button
-                    #     col1, col2, col3 = st.columns([2.5, 0.17, 1])
-                    #     with col2:
-                    #         st.image(whatsapp_logo_url, width = 30)  # Display the WhatsApp icon
-                    #     with col3:
-                    #         if st.button("Notify Me on WhatsApp"):
-                    #             get_whatsapp_number()
-                    # else:
-                    #     st.write(f"You will be notified on WhatsApp at {st.session_state.whatsapp_number}")
+                            st.sidebar.error('Please Enter a Valid WhatsApp Number.')
+                    
+                        
