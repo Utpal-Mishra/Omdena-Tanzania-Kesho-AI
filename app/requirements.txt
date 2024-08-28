@@ -1,8 +1,13 @@
 geopy
 folium
 plotly
+pandas
 cufflinks
 geocoder
+streamlit
 streamlit_lottie
 streamlit_folium
 twilio
+yfinance
+pandas-datareader
+prophet
