@@ -1,3 +1,4 @@
+import os
 import home
 import weather
 import historical
@@ -12,7 +13,8 @@ PAGES = {
     "Historical View": historical
 }
 
-st.sidebar.image("Omdena.png")
+path = os.path.dirname(__file__)
+st.sidebar.image(path+"/Omdena.png")
 
 st.write('')
 st.write('')

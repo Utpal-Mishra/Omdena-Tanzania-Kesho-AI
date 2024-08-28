@@ -1,6 +1,7 @@
 # LIBRARIES
 
 import streamlit as st
+import os
 
    
 def app():
@@ -9,10 +10,13 @@ def app():
     col1, col2 = st.columns(2)
 
     with col1:
-        st.image("Omdena.png")
+
+        path = os.path.dirname(__file__)
+        st.image(path+'/Omdena.png')
 
     with col2:
-        st.image('Tanzania.png', width = 130)
+        path = os.path.dirname(__file__)
+        st.image(path+'/Tanzania.png', width = 130)
 
     st.title("Omdena - KeshoAI")
     st.header("Omdena Partners with EIT Climate-KIC and Sahara Ventures to Host The First Grassroots AI Climathon Event in Tanzania")
