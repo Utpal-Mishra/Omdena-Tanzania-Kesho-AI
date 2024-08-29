@@ -228,7 +228,9 @@ def app():
                     datetime_str = dt['location']['localtime']
                     day = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M").strftime("%A")
                     clock = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M").strftime("%H:%M")
-                                        
+                              
+                    d = []
+                    day = []          
                     tm = []
                     temp = []
                     prcp = []
@@ -243,6 +245,10 @@ def app():
                         for k in range(len(dt['forecast']['forecastday'][i]['hour'])):
                             
                             tm.append(datetime.strptime(dt['forecast']['forecastday'][i]['hour'][k]['time'], "%Y-%m-%d %H:%M"))
+                            
+                            d.append(dt['forecast']['forecastday'][i]['date'])
+                            day.append(datetime.strptime(dt['forecast']['forecastday'][i]['date'], "%Y-%m-%d").strftime("%A"))
+                                            
                             temp.append(dt['forecast']['forecastday'][i]['hour'][k]['temp_c']) # dt['forecast']['forecastday'][i]['hour'][k]['feelslike_c']
                             prcp.append(dt['forecast']['forecastday'][i]['hour'][k]["precip_in"])
                             humid.append(dt['forecast']['forecastday'][i]['hour'][k]["humidity"])
@@ -250,38 +256,59 @@ def app():
                             wdir.append(dt['forecast']['forecastday'][i]['hour'][k]["wind_dir"])
                             gust.append(dt['forecast']['forecastday'][i]['hour'][k]["gust_kph"])
     
-                    X = pd.DataFrame({'time': tm, 'temp': temp, 'prcp': prcp, 'rhum': humid, 'wspd': wspd, 'wdir': wdir, 'gust': gust})
-                        
+                    X = pd.DataFrame({'time': tm, 'date': d, 'day': day, 'temp': temp, 'prcp': prcp, 'rhum': humid, 'wspd': wspd, 'wdir': wdir, 'gust': gust})
+                    
                     st.write('')
                     
                     col1, col2, col3, col4, col5, col6, col7 = st.columns(7, gap = 'small')
                     with col1:
                         st.info('Monday')
-                        st.metric(label = 'Avg Temp: ', value = str(round(X['temp'].mean(), 2)) + '°F')
+                        if (X['day'] == 'Monday').any():
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Monday']['temp'].mean(), 2)) + '°F')
+                        else:
+                            st.metric(label = 'Avg Temp: ', value = '--')
                         
                     with col2:
                         st.info('Tuesday')
-                        st.metric(label = 'Avg Temp: ', value = str(round(X['temp'].mean(), 2)) + '°F')
+                        if (X['day'] == 'Tuesday').any():
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Monday']['temp'].mean(), 2)) + '°F')
+                        else:
+                            st.metric(label = 'Avg Temp: ', value = '--')
                         
                     with col3:
                         st.info('Wednesday')
-                        st.metric(label = 'Avg Temp: ', value = str(round(X['temp'].mean(), 2)) + '°F')
+                        if (X['day'] == 'Wednesday').any():
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Tuesday']['temp'].mean(), 2)) + '°F')
+                        else:
+                            st.metric(label = 'Avg Temp: ', value = '--')
                         
                     with col4:
                         st.info('Thursday')
-                        st.metric(label = 'Avg Temp: ', value = str(round(X['temp'].mean(), 2)) + '°F')
+                        if (X['day'] == 'Thursday').any():
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Thursday']['temp'].mean(), 2)) + '°F')
+                        else:
+                            st.metric(label = 'Avg Temp: ', value = '--')
                         
                     with col5:
                         st.info('Friday')
-                        st.metric(label = 'Avg Temp: ', value = str(round(X['temp'].mean(), 2)) + '°F')
+                        if (X['day'] == 'Friday').any():
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Friday']['temp'].mean(), 2)) + '°F')
+                        else:
+                            st.metric(label = 'Avg Temp: ', value = '--')
                         
                     with col6:
                         st.info('Saturday')
-                        st.metric(label = 'Avg Temp: ', value = str(round(X['temp'].mean(), 2)) + '°F')
+                        if (X['day'] == 'Saturday').any():
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Saturday']['temp'].mean(), 2)) + '°F')
+                        else:
+                            st.metric(label = 'Avg Temp: ', value = '--')
                         
                     with col7:
                         st.info('Sunday')
-                        st.metric(label = 'Avg Temp: ', value = str(round(X['temp'].mean(), 2)) + '°F')
+                        if (X['day'] == 'Sunday').any():
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Sunday']['temp'].mean(), 2)) + '°F')
+                        else:
+                            st.metric(label = 'Avg Temp: ', value = '--')
                     
                     st.write('')
                     
