@@ -80,6 +80,7 @@ def app():
             
         # st.divider()
         
+               
         ####################################################################################################################
             
         
@@ -213,8 +214,7 @@ def app():
                 except:
                     
                     st.divider()
-                    
-                        
+                      
                                                             
                 URL = "http://api.weatherapi.com/v1/forecast.json?key=6bd51cc56e814b49a4b123504240407&q=" + council + ", "  + region + ", Tanzania&days=7&aqi=yes&alerts=yes"
                 
@@ -232,6 +232,10 @@ def app():
                     tm = []
                     temp = []
                     prcp = []
+                    humid = []
+                    wspd = []
+                    wdir = []
+                    gust = []
                         
                     # Forecasting: Present Day - Next 7 Days - D = 0-7
                     for i in range(len(dt['forecast']['forecastday'])): # len(dt['forecast']['forecastday'])
@@ -241,10 +245,90 @@ def app():
                             tm.append(datetime.strptime(dt['forecast']['forecastday'][i]['hour'][k]['time'], "%Y-%m-%d %H:%M"))
                             temp.append(dt['forecast']['forecastday'][i]['hour'][k]['temp_c']) # dt['forecast']['forecastday'][i]['hour'][k]['feelslike_c']
                             prcp.append(dt['forecast']['forecastday'][i]['hour'][k]["precip_in"])
+                            humid.append(dt['forecast']['forecastday'][i]['hour'][k]["humidity"])
+                            wspd.append(dt['forecast']['forecastday'][i]['hour'][k]["wind_kph"])
+                            wdir.append(dt['forecast']['forecastday'][i]['hour'][k]["wind_dir"])
+                            gust.append(dt['forecast']['forecastday'][i]['hour'][k]["gust_kph"])
     
-                    X = pd.DataFrame({'time': tm, 'temp': temp, 'prcp': prcp})
+                    X = pd.DataFrame({'time': tm, 'temp': temp, 'prcp': prcp, 'rhum': humid, 'wspd': wspd, 'wdir': wdir, 'gust': gust})
                         
                     st.write('')
+                    
+                    col1, col2 = st.columns(2)
+                    
+                    # PLOT: Temperature and Precipitation
+        
+                    with col1:
+                        
+                        # Create subplots with secondary y-axis
+                        fig = make_subplots(specs=[[{"secondary_y": True}]])
+                        fig.add_trace(go.Scatter(x = X['time'], y = X['temp'], name = 'Temperature', mode ='lines', line=dict(color = 'firebrick')), secondary_y = False)
+                        fig.add_trace(go.Bar(x = X['time'], y = X['prcp'], name = 'Precipitation', marker = dict(color = 'royalblue')), secondary_y = True)
+
+                        # Update layout
+                        fig.update_layout(height=700, width=1500, title_text='Temperature and Precipitation Over Time: To understand Environmental Conditions, Optimize Agricultural Practices, Manage Natural Resources, and plan for Extreme Weather Events', xaxis_title='Date')
+                        fig.update_xaxes(rangeslider_visible = True, showline = True, linewidth = 2, linecolor = 'black', mirror = True)
+                        fig.update_yaxes(showline = True, title_text='Temperature (°C)', linewidth = 2, linecolor = 'black', secondary_y=False)
+                        fig.update_yaxes(title_text='Precipitation (mm)', linewidth = 2, linecolor = 'black', secondary_y=True)
+                        st.plotly_chart(fig)
+                    
+                        st.divider()        
+                    
+                    # PLOT: Temperature and Humidity
+                                
+                    with col2: 
+                        
+                        # Create subplots with secondary y-axis
+                        fig = make_subplots(specs=[[{"secondary_y": True}]])
+                        fig.add_trace(go.Scatter(x = X['time'], y = X['temp'], name = 'Temperature', mode ='markers+lines', line=dict(color = 'firebrick')), secondary_y = False)
+                        fig.add_trace(go.Scatter(x = X['time'], y = X['rhum'], name = 'Humidity', marker = dict(color = 'royalblue')), secondary_y = True)
+
+                        # Update layout
+                        fig.update_layout(height=700, width=1500, title_text='Temperature and Humidity Over Time: To understand the Heat Index and Comfort Levels', xaxis_title='Date')
+                        fig.update_xaxes(rangeslider_visible = True, showline = True, linewidth = 2, linecolor = 'black', mirror = True)
+                        fig.update_yaxes(showline = True, title_text='Temperature (°C)', linewidth = 2, linecolor = 'black', secondary_y=False)
+                        fig.update_yaxes(title_text='Humidity', linewidth = 2, linecolor = 'black', secondary_y=True)
+                        st.plotly_chart(fig)
+                    
+                        st.divider()
+                    
+                    col1, col2 = st.columns(2) 
+                    
+                    # PLOT: Wind Speed and Wind Direction
+                    
+                    with col1: 
+                                            
+                        # Create subplots with secondary y-axis
+                        fig = make_subplots(specs=[[{"secondary_y": True}]])
+                        fig.add_trace(go.Scatter(x = X['time'], y = X['wspd'], name = 'Wind Speed (km/h)', mode ='lines', line=dict(color = 'firebrick')), secondary_y = False)
+                        fig.add_trace(go.Scatter(x = X['time'], y = X['wdir'], name = 'Wind Direction (°)', marker = dict(color = 'royalblue')), secondary_y = True)
+
+                        # Update layout
+                        fig.update_layout(height=700, width=1500, title_text='Wind Speed and Wind Direction Over Time: To understand Weather Patterns and Storm Tracking', xaxis_title='Date')
+                        fig.update_xaxes(rangeslider_visible = True, showline = True, linewidth = 2, linecolor = 'black', mirror = True)
+                        fig.update_yaxes(showline = True, title_text='Wind Speed (km/h)', linewidth = 2, linecolor = 'black', secondary_y=False)
+                        fig.update_yaxes(title_text='Wind Direction (°)', linewidth = 2, linecolor = 'black', secondary_y=True)
+                        st.plotly_chart(fig)
+                    
+                        st.divider()
+                    
+                    # PLOT: Precipitation and Wind Speed
+                    
+                    with col2: 
+                                            
+                        # Create subplots with secondary y-axis
+                        fig = make_subplots(specs=[[{"secondary_y": True}]])
+                        fig.add_trace(go.Scatter(x = X['time'], y = X['prcp'], name = 'Precipitation', marker = dict(color = 'royalblue')), secondary_y = False)
+                        fig.add_trace(go.Scatter(x = X['time'], y = X['wspd'], name = 'Wind Speed (km/h)', mode = 'markers', marker = dict(size = X['wspd'], color = X['wspd'], colorscale = 'Viridis')), secondary_y = True)
+
+                        # Update layout
+                        fig.update_layout(height=700, width=1500, title_text='Precipitation and Wind Speed Over Time: Weather Patterns, Storm Tracking and Overall Atmospheric Conditions', xaxis_title='Date')
+                        fig.update_xaxes(rangeslider_visible = True, showline = True, linewidth = 2, linecolor = 'black', mirror = True)
+                        fig.update_yaxes(showline = True, title_text='Precipitation', linewidth = 2, linecolor = 'black', secondary_y=False)
+                        fig.update_yaxes(title_text='Wind Speed (km/h)', linewidth = 2, linecolor = 'black', secondary_y=True)
+                        st.plotly_chart(fig)
+                    
+                        st.divider()
                     
                     ### WhatsApp Notification ---------------------------------------------------------------------------------------------
                     
@@ -341,8 +425,7 @@ def app():
         folium.LayerControl().add_to(Map)
         MousePosition().add_to(Map)
         Map.add_child(folium.LatLngPopup())
-                
-                      
+                            
         folium_static(Map, width = 1500, height = 750)
                     
                         
