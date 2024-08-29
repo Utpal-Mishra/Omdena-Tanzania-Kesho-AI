@@ -258,21 +258,27 @@ def app():
                     with col1:
                         st.info('Monday')
                         st.metric(label = 'Avg Temp: ', value = str(round(X['temp'].mean(), 2)) + '°F')
+                        
                     with col2:
                         st.info('Tuesday')
                         st.metric(label = 'Avg Temp: ', value = str(round(X['temp'].mean(), 2)) + '°F')
+                        
                     with col3:
                         st.info('Wednesday')
                         st.metric(label = 'Avg Temp: ', value = str(round(X['temp'].mean(), 2)) + '°F')
+                        
                     with col4:
                         st.info('Thursday')
                         st.metric(label = 'Avg Temp: ', value = str(round(X['temp'].mean(), 2)) + '°F')
+                        
                     with col5:
                         st.info('Friday')
                         st.metric(label = 'Avg Temp: ', value = str(round(X['temp'].mean(), 2)) + '°F')
+                        
                     with col6:
                         st.info('Saturday')
                         st.metric(label = 'Avg Temp: ', value = str(round(X['temp'].mean(), 2)) + '°F')
+                        
                     with col7:
                         st.info('Sunday')
                         st.metric(label = 'Avg Temp: ', value = str(round(X['temp'].mean(), 2)) + '°F')
