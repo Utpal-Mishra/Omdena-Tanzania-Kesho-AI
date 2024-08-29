@@ -1,3 +1,13 @@
+# RESOURCES
+# Streamlit: https://folium.streamlit.app/
+# Icons: https://streamlit-emoji-shortcodes-streamlit-app-gwckff.streamlit.app/
+# Metrics: https://www.youtube.com/watch?v=pWxDxhWXJos
+# Visuals: https://www.youtube.com/watch?v=G9U4Uixssf0
+# Animations: https://www.youtube.com/watch?v=gvfIHiqQQHY
+# Animations: https://www.youtube.com/watch?v=gr_KyGfO_eU
+# Animations: https://www.youtube.com/watch?v=a8KFaqsq6oE
+
+
 # LIBRARIES
 
 import streamlit as st
