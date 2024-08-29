@@ -40,7 +40,6 @@ def app():
         # st.dataframe(data)
         # st.sidebar.map(data.rename(columns = {'Latitude': 'latitude', 'Longitude': 'longitude'}), zoom = 3, size = 50)
           
-        
         ############################################################################################################
             
         address = 'Tanzania'
@@ -50,43 +49,38 @@ def app():
         longitude = location.longitude
 
         # # Create a folium map
-        Map = folium.Map(location=[latitude, longitude], zoom_start = 5)
-        folium.Marker([latitude, longitude], popup="Tanzania", icon=folium.Icon(color="red")).add_to(Map)
-        geojson_data = requests.get("https://raw.githubusercontent.com/python-visualization/folium-example-data/main/world_countries.json").json()
-        folium.GeoJson(geojson_data).add_to(Map)
-        folium.LayerControl().add_to(Map)
-        MousePosition().add_to(Map)
-        Map.add_child(folium.LatLngPopup())
-                 
+        Map = folium.Map(location=[latitude, longitude], zoom_start = 7)
+                         
         # for idx, row in data.iterrows():
         #     folium.Marker([row['Latitude'], 
         #                    row['Longitude']], 
         #                    popup = "Region: " + row['Region'] + ", Council: " + row['Council']  + ", Ward: " + row['Ward']).add_to(Map)
                     
                     # Add LocateControl to the map
+        
+        # folium_static(Map, width = 1500, height = 750)
+        
         # LocateControl(auto_start=True).add_to(Map)
-        folium_static(Map, width = 1500, height = 750)
-
         # JavaScript to extract and print user's coordinates
-        user_coordinates = """
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    let locateButton = document.querySelector('.leaflet-control-locate a');
-                    locateButton.click();
-                    navigator.geolocation.getCurrentPosition(function(position) {
-                        console.log('User coordinates:', position.coords.latitude, position.coords.longitude);
-                    });
-                });
-            </script>
-        """
-
+        # user_coordinates = """
+        #     <script>
+        #         document.addEventListener('DOMContentLoaded', function() {
+        #             let locateButton = document.querySelector('.leaflet-control-locate a');
+        #             locateButton.click();
+        #             navigator.geolocation.getCurrentPosition(function(position) {
+        #                 console.log('User coordinates:', position.coords.latitude, position.coords.longitude);
+        #             });
+        #         });
+        #     </script>
+        # """
+        
         # Display the JavaScript in Streamlit
-        st.markdown(user_coordinates, unsafe_allow_html=True)
+        # st.write(user_coordinates, unsafe_allow_html=True)
         # folium_static(Map)
             
         # st.divider()
         
-        ###########################################################################################################
+        ####################################################################################################################
             
         
         # Adding a sidebar with select boxes
@@ -195,7 +189,7 @@ def app():
                     # Initialize the map centered around the mean of the coordinates
                     map_center = [status['Latitude'].mean(), status['Longitude'].mean()]
                     
-                    Map = folium.Map(location = map_center, zoom_start = 5)
+                    Map = folium.Map(location = map_center, zoom_start = 7)
                     folium.Marker([latitude, longitude], popup="Tanzania", icon=folium.Icon(color="red")).add_to(Map)
                     folium.Marker(map_center, popup = "Region: " + region + ', ' + "Council: " + council, icon = folium.Icon(color="green")).add_to(Map)
                     
@@ -204,7 +198,6 @@ def app():
                                        row['Longitude']], 
                                        popup = "Ward: " + row['Ward']).add_to(Map) # + ', ' + "Temp: " + row['Temperature'] + ' °C'
                                 
-
                     # Prepare the heatmap data
                     heat_data = [[row['Latitude'], row['Longitude'], row['Temperature']] for index, row in status.iterrows()]
                     # st.write(heat_data)
@@ -213,14 +206,15 @@ def app():
                     HeatMap(heat_data).add_to(Map)
 
                     # Display the map in Streamlit
-                    # folium_static(Map)
+                    # folium_static(Map, width = 1500, height = 750)
                     
-                    st.divider() 
-                    
-                except:
-                        
                     st.divider() 
                 
+                except:
+                    
+                    st.divider()
+                    
+                        
                                                             
                 URL = "http://api.weatherapi.com/v1/forecast.json?key=6bd51cc56e814b49a4b123504240407&q=" + council + ", "  + region + ", Tanzania&days=7&aqi=yes&alerts=yes"
                 
@@ -331,5 +325,24 @@ def app():
                                 st.error(f'Failed to Send Message: {e}')
                         else:
                             st.error('Please Enter a Valid WhatsApp Number.')
+                            
+        folium.TileLayer(
+                tiles = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+                attr='Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+                name='Esri Satellite',
+                overlay=True,
+                control=True
+            ).add_to(Map)
+        
+        folium.Marker([latitude, longitude], popup="Tanzania", icon=folium.Icon(color="red")).add_to(Map)
+        
+        geojson_data = requests.get("https://raw.githubusercontent.com/python-visualization/folium-example-data/main/world_countries.json").json()
+        folium.GeoJson(geojson_data, name='Country Borders', style_function=lambda x: {'color': 'blue', 'weight': 2, 'fillOpacity': 0.1}).add_to(Map)
+        folium.LayerControl().add_to(Map)
+        MousePosition().add_to(Map)
+        Map.add_child(folium.LatLngPopup())
+                
+                      
+        folium_static(Map, width = 1500, height = 750)
                     
                         

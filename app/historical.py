@@ -15,6 +15,7 @@ from datetime import datetime, timedelta
 from geopy.geocoders import Nominatim
 
 import folium
+from folium.plugins import Fullscreen
 from streamlit_folium import folium_static
 
 import plotly.express as px
