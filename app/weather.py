@@ -520,6 +520,6 @@ def app():
         MousePosition().add_to(Map)
         Map.add_child(folium.LatLngPopup())
                             
-        folium_static(Map, width = 1500, height = 750)
+        folium_static(Map, width = 1300, height = 750)
                     
                         
