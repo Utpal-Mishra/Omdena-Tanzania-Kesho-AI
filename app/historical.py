@@ -110,8 +110,11 @@ def app():
             season = st.selectbox('Select Season', ['Winter', 'Spring', 'Summer', 'Fall'])
             filtered_data = visuals[visuals['season'] == season]
             filtered_data = boundaries(filtered_data)
-            
-        # PLOT: Temperature and Precipitation Over Time
+                
+        st.write("")
+        st.write("")
+        
+        # PLOT: Temperature and Precipitation
         
         if st.checkbox("Understand Environmental Conditions, Optimize Agricultural Practices, Manage Natural Resources, and plan for Extreme Weather Events"):
             
@@ -129,7 +132,7 @@ def app():
         
             st.divider()        
         
-        # PLOT: Temperature and Humidity Over Time
+        # PLOT: Temperature and Humidity
                        
         if st.checkbox("Understand the Heat Index and Comfort Levels"): 
             
@@ -147,7 +150,7 @@ def app():
         
             st.divider()
         
-        # PLOT: Wind Speed and Wind Direction Over Time
+        # PLOT: Wind Speed and Wind Direction
         
         if st.checkbox("Understand Weather Patterns and Storm Tracking"): 
                                 
@@ -164,4 +167,21 @@ def app():
             st.plotly_chart(fig)
         
             st.divider()
-    
+        
+        # PLOT: Precipitation and Wind Speed
+        
+        if st.checkbox("Understand Weather Patterns, Storm Tracking and Overall Atmospheric Conditions"): 
+                                
+            # Create subplots with secondary y-axis
+            fig = make_subplots(specs=[[{"secondary_y": True}]])
+            fig.add_trace(go.Scatter(x = filtered_data['date'], y = filtered_data['prcp'], name = 'Precipitation', marker = dict(color = 'royalblue')), secondary_y = False)
+            fig.add_trace(go.Scatter(x = filtered_data['date'], y = filtered_data['wspd'], name = 'Wind Speed (km/h)', mode = 'markers', marker = dict(size = filtered_data['wspd'], color = filtered_data['wspd'], colorscale = 'Viridis')), secondary_y = True)
+
+            # Update layout
+            fig.update_layout(height=700, width=1500, title_text='Precipitation and Wind Speed Over Time: Weather Patterns, Storm Tracking and Overall Atmospheric Conditions', xaxis_title='Date')
+            fig.update_xaxes(rangeslider_visible = True, showline = True, linewidth = 2, linecolor = 'black', mirror = True)
+            fig.update_yaxes(showline = True, title_text='Precipitation', linewidth = 2, linecolor = 'black', secondary_y=False)
+            fig.update_yaxes(title_text='Wind Speed (km/h)', linewidth = 2, linecolor = 'black', secondary_y=True)
+            st.plotly_chart(fig)
+        
+            st.divider()
