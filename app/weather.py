@@ -50,7 +50,33 @@ def app():
 
         # # Create a folium map
         Map = folium.Map(location=[latitude, longitude], zoom_start = 7)
-                         
+        
+        # # Create a list of tile layers
+        # tile_layers = {
+        # 'Open Street Map': 'openstreetmap',
+        # 'Stamen Terrain': 'Stamen Terrain',
+        # 'Stamen Toner': 'Stamen Toner',
+        # 'Stamen Watercolor': 'Stamen Watercolor',
+        # 'CartoDB Positron': 'CartoDB positron',
+        # 'CartoDB Dark Matter': 'CartoDB dark_matter',
+        # 'Esri Satellite': 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+        # }
+
+        # # Sidebar for tile layer selection
+        # selected_tile = st.sidebar.selectbox('Select Tile Layer', list(tile_layers.keys())) #, index=None, placeholder="Select Map Tile")
+            
+        # # Add the selected tile layer
+        # if selected_tile == 'Esri Satellite':
+        #     folium.TileLayer(
+        #         tiles=tile_layers[selected_tile],
+        #         attr='Esri',
+        #         name='Esri Satellite',
+        #         overlay=False,
+        #         control=True
+        #     ).add_to(Map)
+        # else:
+        #     folium.TileLayer(tile_layers[selected_tile]).add_to(Map)
+                               
         # for idx, row in data.iterrows():
         #     folium.Marker([row['Latitude'], 
         #                    row['Longitude']], 
@@ -264,55 +290,55 @@ def app():
                     with col1:
                         st.info('Monday')
                         if (X['day'] == 'Monday').any():
-                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Monday']['temp'].mean(), 2)) + '°F')
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Monday']['temp'].mean(), 2)) + '°F', delta = str(round(X[X['day'] == 'Mondday']['temp'].max(), 2)) + '°F', delta_color = "inverse")
                         else:
                             st.metric(label = 'Avg Temp: ', value = '--')
                         
                     with col2:
                         st.info('Tuesday')
                         if (X['day'] == 'Tuesday').any():
-                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Monday']['temp'].mean(), 2)) + '°F')
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Monday']['temp'].mean(), 2)) + '°F', delta = str(round(X[X['day'] == 'Tuesday']['temp'].max(), 2)) + '°F', delta_color = "inverse")
                         else:
                             st.metric(label = 'Avg Temp: ', value = '--')
                         
                     with col3:
                         st.info('Wednesday')
                         if (X['day'] == 'Wednesday').any():
-                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Tuesday']['temp'].mean(), 2)) + '°F')
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Tuesday']['temp'].mean(), 2)) + '°F', delta = str(round(X[X['day'] == 'Wednesday']['temp'].max(), 2)) + '°F', delta_color = "inverse")
                         else:
                             st.metric(label = 'Avg Temp: ', value = '--')
                         
                     with col4:
                         st.info('Thursday')
                         if (X['day'] == 'Thursday').any():
-                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Thursday']['temp'].mean(), 2)) + '°F')
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Thursday']['temp'].mean(), 2)) + '°F', delta = str(round(X[X['day'] == 'Thursday']['temp'].max(), 2)) + '°F', delta_color = "inverse")
                         else:
                             st.metric(label = 'Avg Temp: ', value = '--')
                         
                     with col5:
                         st.info('Friday')
                         if (X['day'] == 'Friday').any():
-                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Friday']['temp'].mean(), 2)) + '°F')
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Friday']['temp'].mean(), 2)) + '°F', delta = str(round(X[X['day'] == 'Friday']['temp'].max(), 2)) + '°F', delta_color = "inverse")
                         else:
                             st.metric(label = 'Avg Temp: ', value = '--')
                         
                     with col6:
                         st.info('Saturday')
                         if (X['day'] == 'Saturday').any():
-                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Saturday']['temp'].mean(), 2)) + '°F')
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Saturday']['temp'].mean(), 2)) + '°F', delta = str(round(X[X['day'] == 'Saturday']['temp'].max(), 2)) + '°F', delta_color = "inverse")
                         else:
                             st.metric(label = 'Avg Temp: ', value = '--')
                         
                     with col7:
                         st.info('Sunday')
                         if (X['day'] == 'Sunday').any():
-                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Sunday']['temp'].mean(), 2)) + '°F')
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Sunday']['temp'].mean(), 2)) + '°F', delta = str(round(X[X['day'] == 'Sunday']['temp'].max(), 2)) + '°F', delta_color = "inverse")
                         else:
                             st.metric(label = 'Avg Temp: ', value = '--')
                     
                     st.write('')
                     
-                    col1, col2 = st.columns(2)
+                    col1, col2 = st.columns(2, gap = 'medium')
                     
                     # PLOT: Temperature and Precipitation
         
@@ -324,7 +350,7 @@ def app():
                         fig.add_trace(go.Bar(x = X['time'], y = X['prcp'], name = 'Precipitation', marker = dict(color = 'royalblue')), secondary_y = True)
 
                         # Update layout
-                        fig.update_layout(height=700, width=1500, title_text='Temperature and Precipitation Over Time: To understand Environmental Conditions, Optimize Agricultural Practices, Manage Natural Resources, and plan for Extreme Weather Events', xaxis_title='Date')
+                        fig.update_layout(height=700, width=1500, title_text='Understanding Environmental Conditions and plan for Extreme Weather Events', xaxis_title='Date')
                         fig.update_xaxes(rangeslider_visible = True, showline = True, linewidth = 2, linecolor = 'black', mirror = True)
                         fig.update_yaxes(showline = True, title_text='Temperature (°C)', linewidth = 2, linecolor = 'black', secondary_y=False)
                         fig.update_yaxes(title_text='Precipitation (mm)', linewidth = 2, linecolor = 'black', secondary_y=True)
@@ -339,18 +365,18 @@ def app():
                         # Create subplots with secondary y-axis
                         fig = make_subplots(specs=[[{"secondary_y": True}]])
                         fig.add_trace(go.Scatter(x = X['time'], y = X['temp'], name = 'Temperature', mode ='markers+lines', line=dict(color = 'firebrick')), secondary_y = False)
-                        fig.add_trace(go.Scatter(x = X['time'], y = X['rhum'], name = 'Humidity', marker = dict(color = 'royalblue')), secondary_y = True)
+                        fig.add_trace(go.Scatter(x = X['time'], y = X['rhum'], name = 'Humidity (%)', marker = dict(color = 'royalblue')), secondary_y = True)
 
                         # Update layout
-                        fig.update_layout(height=700, width=1500, title_text='Temperature and Humidity Over Time: To understand the Heat Index and Comfort Levels', xaxis_title='Date')
+                        fig.update_layout(height=700, width=1500, title_text='Understanding the Heat Index and Comfort Levels', xaxis_title='Date')
                         fig.update_xaxes(rangeslider_visible = True, showline = True, linewidth = 2, linecolor = 'black', mirror = True)
                         fig.update_yaxes(showline = True, title_text='Temperature (°C)', linewidth = 2, linecolor = 'black', secondary_y=False)
-                        fig.update_yaxes(title_text='Humidity', linewidth = 2, linecolor = 'black', secondary_y=True)
+                        fig.update_yaxes(title_text='Humidity (%)', linewidth = 2, linecolor = 'black', secondary_y=True)
                         st.plotly_chart(fig)
                     
                         st.divider()
                     
-                    col1, col2 = st.columns(2) 
+                    col1, col2 = st.columns(2, gap = 'medium')
                     
                     # PLOT: Wind Speed and Wind Direction
                     
@@ -362,7 +388,7 @@ def app():
                         fig.add_trace(go.Scatter(x = X['time'], y = X['wdir'], name = 'Wind Direction (°)', marker = dict(color = 'royalblue')), secondary_y = True)
 
                         # Update layout
-                        fig.update_layout(height=700, width=1500, title_text='Wind Speed and Wind Direction Over Time: To understand Weather Patterns and Storm Tracking', xaxis_title='Date')
+                        fig.update_layout(height=700, width=1500, title_text='Understanding Weather Patterns and Storm Tracking', xaxis_title='Date')
                         fig.update_xaxes(rangeslider_visible = True, showline = True, linewidth = 2, linecolor = 'black', mirror = True)
                         fig.update_yaxes(showline = True, title_text='Wind Speed (km/h)', linewidth = 2, linecolor = 'black', secondary_y=False)
                         fig.update_yaxes(title_text='Wind Direction (°)', linewidth = 2, linecolor = 'black', secondary_y=True)
@@ -380,9 +406,9 @@ def app():
                         fig.add_trace(go.Scatter(x = X['time'], y = X['wspd'], name = 'Wind Speed (km/h)', mode = 'markers', marker = dict(size = X['wspd'], color = X['wspd'], colorscale = 'Viridis')), secondary_y = True)
 
                         # Update layout
-                        fig.update_layout(height=700, width=1500, title_text='Precipitation and Wind Speed Over Time: Weather Patterns, Storm Tracking and Overall Atmospheric Conditions', xaxis_title='Date')
+                        fig.update_layout(height=700, width=1500, title_text='Understanding Overall Atmospheric Conditions', xaxis_title='Date')
                         fig.update_xaxes(rangeslider_visible = True, showline = True, linewidth = 2, linecolor = 'black', mirror = True)
-                        fig.update_yaxes(showline = True, title_text='Precipitation', linewidth = 2, linecolor = 'black', secondary_y=False)
+                        fig.update_yaxes(showline = True, title_text='Precipitation (mm)', linewidth = 2, linecolor = 'black', secondary_y=False)
                         fig.update_yaxes(title_text='Wind Speed (km/h)', linewidth = 2, linecolor = 'black', secondary_y=True)
                         st.plotly_chart(fig)
                     
@@ -468,14 +494,14 @@ def app():
                         else:
                             st.error('Please Enter a Valid WhatsApp Number.')
                             
-        folium.TileLayer(
-                tiles = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-                attr='Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
-                name='Esri Satellite',
-                overlay=True,
-                control=True
-            ).add_to(Map)
-        
+        # folium.TileLayer(
+        #         tiles = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+        #         attr='Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
+        #         name='Esri Satellite',
+        #         overlay=True,
+        #         control=True
+        #     ).add_to(Map)
+                
         folium.Marker([latitude, longitude], popup="Tanzania", icon=folium.Icon(color="red")).add_to(Map)
         
         geojson_data = requests.get("https://raw.githubusercontent.com/python-visualization/folium-example-data/main/world_countries.json").json()
