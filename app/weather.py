@@ -307,14 +307,14 @@ def app():
                     with col2:
                         st.info('Tuesday')
                         if (X['day'] == 'Tuesday').any():
-                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Monday']['temp'].mean(), 2)) + '°F', delta = str(round(X[X['day'] == 'Tuesday']['temp'].max(), 2)) + '°F', delta_color = "inverse")
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Tuesday']['temp'].mean(), 2)) + '°F', delta = str(round(X[X['day'] == 'Tuesday']['temp'].max(), 2)) + '°F', delta_color = "inverse")
                         else:
                             st.metric(label = 'Avg Temp: ', value = '--')
                         
                     with col3:
                         st.info('Wednesday')
                         if (X['day'] == 'Wednesday').any():
-                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Tuesday']['temp'].mean(), 2)) + '°F', delta = str(round(X[X['day'] == 'Wednesday']['temp'].max(), 2)) + '°F', delta_color = "inverse")
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Wednesday']['temp'].mean(), 2)) + '°F', delta = str(round(X[X['day'] == 'Wednesday']['temp'].max(), 2)) + '°F', delta_color = "inverse")
                         else:
                             st.metric(label = 'Avg Temp: ', value = '--')
                         
@@ -446,17 +446,97 @@ def app():
                     st.sidebar.write('')
                     st.sidebar.write('')
                     
-                    account_sid = 'AC92ca5d0fb663ff16fc4374cea4f15e98'
-                    auth_token = 'a23285eab75a9c65aefbdcd75c125d50'
+                    account_sid = 'AC813a84f348a10a3521b1279686057ac4'
+                    auth_token = 'c8d87bf308d7136841ea564489939298'
                     # account_sid = os.environ["ACCOUNT_SID"]
                     # auth_token = os.environ["AUTH_TOKEN"]
                     client = Client(account_sid, auth_token)
                     
-                    with st.sidebar.form(key='whatsapp_form'):
-                        user_number = st.text_input(':bellhop_bell: Receive WhatsApp Notifications (Enter Number with Country Code):', placeholder = 'Format Ex: 353XXXXXXXXX')
-                        submit_button = st.form_submit_button(label='Get Notifications')
+                    # Function to inject custom CSS for button styling
+                    def button_css():
+                        st.markdown("""
+                            <style>
+                            .stButton button {
+                                background-color: #B9060A;
+                                color: white;
+                                border: none;
+                                padding: 5px 24px;
+                                text-align: center;
+                                display: inline-block;
+                                font-size: 16px;
+                                cursor: pointer;
+                                transition-duration: 0.5s;
+                            }
 
-                    if submit_button:
+                            .stButton button:active {
+                                background-color: green;
+                            }
+                            </style>
+                            """, unsafe_allow_html=True)
+
+                    # Inject CSS for button styling
+                    button_css()
+                    
+                    with st.sidebar.form(key='whatsapp_form'):
+                        user_number = st.text_input(':bellhop_bell: Get Notified (Enter Number with Country Code):', placeholder = 'Format Ex: 353XXXXXXXXX')
+                        
+                        submit_button_1 = st.form_submit_button(label='SMS :speech_balloon:', use_container_width=True)
+                        submit_button_2 = st.form_submit_button(label='WhatsApp :speech_balloon:',use_container_width=True)
+                    
+                    #################################################################
+                                               
+                    if submit_button_1:
+                        
+                        st.info('Notifications Activated', icon="ℹ️")
+                        
+                        if user_number:
+                            
+                            try:
+                                message = client.messages.create(
+                                from_= '+12082890855',
+                                body = 'Live Weather Status\n\n' + update,
+                                to = '+' + str(user_number)
+                                )
+                                
+                                message = client.messages.create(
+                                from_= '+12082890855',
+                                body = 'Weather Forecasting:\nFor Temperature and Precipitation\n\n',
+                                to = '+' + str(user_number)
+                                )
+                                
+                                time.sleep(1)
+                                
+                                current_time = datetime.strptime(datetime_str, "%Y-%m-%d %H:%M")
+                                # Get the next three hours from the current time
+                                time_intervals = [current_time + timedelta(hours=i) for i in range(3)]
+                                
+                                # Iterate through the time intervals and compare with the DataFrame times
+                                for i in range(len(X)):
+                                    data_time = X['time'][i]
+                                    if (current_time.date() == data_time.date() and current_time.time() <= data_time.time() < time_intervals[-1].time()):
+                                        # print(data_time.strftime("%H:%M"))
+                                        message = client.messages.create(
+                                        from_= '+12082890855',
+                                        body = "Date: " + str(data_time.date()) + "\nTime: " + str(data_time.time()) + "\nT: " + str(X['temp'][i]) + " °C\nP: " + str(X['prcp'][i]) + " in\n\n",
+                                        to = '+' + str(user_number)
+                                        )
+                                        
+                                # st.success('Notifications on the way to your WhatsApp!!')
+                                msg = st.toast('Notifications on the Way!!', icon='🎉')
+                                time.sleep(1)
+                                msg.toast('Notifications on the way!!', icon='🔥')
+                                time.sleep(1)
+                                msg.toast('Notifications on the Way!!', icon='🚀')
+                                
+                            except Exception as e:
+                                st.error(f'Failed to Send Message: {e}')
+                        else:
+                            st.error('Please Enter a Valid WhatsApp Number.')
+                           
+                    
+                    #################################################################
+                    
+                    if submit_button_2:
                         
                         st.info('Notifications Activated', icon="ℹ️")
                         

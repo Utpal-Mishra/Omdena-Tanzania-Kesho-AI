@@ -7,7 +7,7 @@ import os
 def app():
         
     st.write("")
-    col1, col2 = st.columns(2)
+    col1, col2, col3 = st.columns(3, gap = "small", vertical_alignment = "center")
 
     with col1:
 
@@ -16,9 +16,13 @@ def app():
 
     with col2:
         path = os.path.dirname(__file__)
-        st.image(path+'/Tanzania.png', width = 130)
+        st.image(path+'/Kesho.png')        
 
-    st.title("Omdena - KeshoAI")
+    with col3:
+        path = os.path.dirname(__file__)
+        st.image(path+'/Tanzania.png', width = 200)
+
+    # st.title("Omdena - KeshoAI")
     st.header("Omdena Partners with EIT Climate-KIC and Sahara Ventures to Host The First Grassroots AI Climathon Event in Tanzania")
      
     ###########################################################################################################
