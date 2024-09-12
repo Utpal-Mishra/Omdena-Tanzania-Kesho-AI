@@ -10,7 +10,7 @@ import os
 def app():
         
     st.write("")
-    col1, col2, col3 = st.columns(3, gap = "small", vertical_alignment = "center")
+    col1, col2, col3 = st.columns(3, gap = "small")#, vertical_alignment = "center")
 
     with col1:
 
@@ -43,15 +43,16 @@ def app():
     SOURCE_TYPE = 'json' # json or gdocs
     GDOCS_PATH = 'https://docs.google.com/spreadsheets/u/1/d/1xuY4upIooEeszZ_lCmeNx24eSFWe0rHe9ZdqH2xqVNk/pubhtml' # example url
     JSON_PATH = os.path.join(os.getcwd(), 'timeline_nlp.json') # example json
-
+        
     TL_HEIGHT = 500 # px
 
 
     # load data
     json_text = ''
-    if SOURCE_TYPE == 'json':
+    if True: #SOURCE_TYPE == 'json':
         with open(JSON_PATH, "r") as f:
             json_text = f.read()
+            print(json_text)
             source_param = 'timeline_json'
             source_block = f'var {source_param} = {json_text};'
     elif SOURCE_TYPE == 'gdocs':

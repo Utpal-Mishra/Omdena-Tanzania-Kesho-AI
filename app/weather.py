@@ -300,49 +300,49 @@ def app():
                     with col1:
                         st.info('Monday')
                         if (X['day'] == 'Monday').any():
-                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Monday']['temp'].mean(), 2)) + '°F', delta = str(round(X[X['day'] == 'Mondday']['temp'].max(), 2)) + '°F', delta_color = "inverse")
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Monday']['temp'].mean(), 2)) + '°C', delta = str(round(X[X['day'] == 'Mondday']['temp'].max(), 2)) + '°C', delta_color = "inverse")
                         else:
                             st.metric(label = 'Avg Temp: ', value = '--')
                         
                     with col2:
                         st.info('Tuesday')
                         if (X['day'] == 'Tuesday').any():
-                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Tuesday']['temp'].mean(), 2)) + '°F', delta = str(round(X[X['day'] == 'Tuesday']['temp'].max(), 2)) + '°F', delta_color = "inverse")
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Tuesday']['temp'].mean(), 2)) + '°C', delta = str(round(X[X['day'] == 'Tuesday']['temp'].max(), 2)) + '°C', delta_color = "inverse")
                         else:
                             st.metric(label = 'Avg Temp: ', value = '--')
                         
                     with col3:
                         st.info('Wednesday')
                         if (X['day'] == 'Wednesday').any():
-                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Wednesday']['temp'].mean(), 2)) + '°F', delta = str(round(X[X['day'] == 'Wednesday']['temp'].max(), 2)) + '°F', delta_color = "inverse")
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Wednesday']['temp'].mean(), 2)) + '°C', delta = str(round(X[X['day'] == 'Wednesday']['temp'].max(), 2)) + '°C', delta_color = "inverse")
                         else:
                             st.metric(label = 'Avg Temp: ', value = '--')
                         
                     with col4:
                         st.info('Thursday')
                         if (X['day'] == 'Thursday').any():
-                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Thursday']['temp'].mean(), 2)) + '°F', delta = str(round(X[X['day'] == 'Thursday']['temp'].max(), 2)) + '°F', delta_color = "inverse")
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Thursday']['temp'].mean(), 2)) + '°C', delta = str(round(X[X['day'] == 'Thursday']['temp'].max(), 2)) + '°C', delta_color = "inverse")
                         else:
                             st.metric(label = 'Avg Temp: ', value = '--')
                         
                     with col5:
                         st.info('Friday')
                         if (X['day'] == 'Friday').any():
-                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Friday']['temp'].mean(), 2)) + '°F', delta = str(round(X[X['day'] == 'Friday']['temp'].max(), 2)) + '°F', delta_color = "inverse")
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Friday']['temp'].mean(), 2)) + '°C', delta = str(round(X[X['day'] == 'Friday']['temp'].max(), 2)) + '°C', delta_color = "inverse")
                         else:
                             st.metric(label = 'Avg Temp: ', value = '--')
                         
                     with col6:
                         st.info('Saturday')
                         if (X['day'] == 'Saturday').any():
-                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Saturday']['temp'].mean(), 2)) + '°F', delta = str(round(X[X['day'] == 'Saturday']['temp'].max(), 2)) + '°F', delta_color = "inverse")
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Saturday']['temp'].mean(), 2)) + '°C', delta = str(round(X[X['day'] == 'Saturday']['temp'].max(), 2)) + '°C', delta_color = "inverse")
                         else:
                             st.metric(label = 'Avg Temp: ', value = '--')
                         
                     with col7:
                         st.info('Sunday')
                         if (X['day'] == 'Sunday').any():
-                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Sunday']['temp'].mean(), 2)) + '°F', delta = str(round(X[X['day'] == 'Sunday']['temp'].max(), 2)) + '°F', delta_color = "inverse")
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Sunday']['temp'].mean(), 2)) + '°C', delta = str(round(X[X['day'] == 'Sunday']['temp'].max(), 2)) + '°C', delta_color = "inverse")
                         else:
                             st.metric(label = 'Avg Temp: ', value = '--')
                     
