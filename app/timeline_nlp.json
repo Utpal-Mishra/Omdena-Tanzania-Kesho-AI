@@ -1,0 +1,88 @@
+
+{
+    "title": {
+        "text": {
+          "headline": "Omdena - Kesho AI<br>A Collaboration Project",
+        }
+    },
+    "events": [
+      {
+        "start_date": {
+          "year": "2024",
+          "month": "6",
+          "day": "24"
+        },
+        "text": {
+          "headline": "Business Understanding<br/>",
+          "text": "<br/><p></p><br/>"
+        }
+      },
+      {
+        "start_date": {
+          "year": "2024",
+          "month": "6",
+          "day": "28"
+        },
+        "text": {
+          "headline": "Data Mining<br/>",
+          "text": "<br/><p></p><br/>"
+        }
+      },
+      {
+        "start_date": {
+          "year": "2024",
+          "month": "7",
+          "day": "6"
+        },
+        "text": {
+          "headline": "Data Cleaning<br/>",
+          "text": "<br/><p></p><br/>"
+        }
+      },
+      {
+        "start_date": {
+          "year": "2024",
+          "month": "7",
+          "day": "20"
+        },
+        "text": {
+          "headline": "Data Exploration<br/>",
+          "text": "<br/><p></p><br/>"
+        }
+      },
+      {
+        "start_date": {
+          "year": "2024",
+          "month": "8",
+          "day": "10"
+        },
+        "text": {
+          "headline": "Feature Engineering<br/>",
+          "text": "<br/><p></p><br/>"
+        }
+      },
+      {
+        "start_date": {
+          "year": "2024",
+          "month": "8",
+          "day": "24"
+        },
+        "text": {
+          "headline": "Predictive Modeling<br/>",
+          "text": "<br/><p></p><br/>"
+        }
+      },
+      {
+        "start_date": {
+          "year": "2024",
+          "month": "9",
+          "day": "1"
+        },
+        "text": {
+          "headline": "Data Visualization<br/>",
+          "text": "<br/><p></p><br/>"
+        }
+      }
+      
+    ]
+}
