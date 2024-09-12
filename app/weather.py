@@ -584,6 +584,7 @@ def app():
                         else:
                             st.error('Please Enter a Valid WhatsApp Number.')
                             
+                            
         # folium.TileLayer(
         #         tiles = 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
         #         attr='Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community',
@@ -600,6 +601,6 @@ def app():
         MousePosition().add_to(Map)
         Map.add_child(folium.LatLngPopup())
                             
-        folium_static(Map, width = 1300, height = 750)
+        folium_static(Map, width = 1740, height = 750)
                     
                         
