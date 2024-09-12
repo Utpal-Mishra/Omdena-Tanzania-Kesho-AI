@@ -601,6 +601,13 @@ def app():
         MousePosition().add_to(Map)
         Map.add_child(folium.LatLngPopup())
                             
-        folium_static(Map, width = 1740, height = 750)
-                    
+        col1, col2 = st.columns([5, 1], gap = "small")
+        with col1:
+            if region and council:
+                st.subheader("{}, {} HeapMap".format(council, region))
+                
+            folium_static(Map, width = 1430, height = 750)
+        with col2:
+            st.info('ALERTS')
+            st.write('No Alerts')
                         
