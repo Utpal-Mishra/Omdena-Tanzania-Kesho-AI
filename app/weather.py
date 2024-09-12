@@ -606,7 +606,7 @@ def app():
             if region and council:
                 st.subheader("{}, {} HeapMap".format(council, region))
                 
-            folium_static(Map, width = 1100, height = 750)
+            folium_static(Map, width = 1150, height = 750)
         with col2:
             st.info('ALERTS')
             st.write('No Alerts')
