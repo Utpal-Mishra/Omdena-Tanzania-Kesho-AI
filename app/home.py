@@ -36,63 +36,63 @@ def app():
     
     ###########################################################################################################
        
-    # parameters
-    CDN_LOCAL = False
-    CDN_PATH = 'https://cdn.knightlab.com/libs/timeline3/latest'
-    CSS_PATH = 'timeline3/css/timeline.css'
-    JS_PATH = 'timeline3/js/timeline.js'
+    # # parameters
+    # CDN_LOCAL = False
+    # CDN_PATH = 'https://cdn.knightlab.com/libs/timeline3/latest'
+    # CSS_PATH = 'timeline3/css/timeline.css'
+    # JS_PATH = 'timeline3/js/timeline.js'
 
-    SOURCE_TYPE = 'json' # json or gdocs
-    GDOCS_PATH = 'https://docs.google.com/spreadsheets/u/1/d/1xuY4upIooEeszZ_lCmeNx24eSFWe0rHe9ZdqH2xqVNk/pubhtml' # example url
-    JSON_PATH = os.path.join(os.getcwd(), 'timeline_nlp.json') # example json
+    # SOURCE_TYPE = 'json' # json or gdocs
+    # GDOCS_PATH = 'https://docs.google.com/spreadsheets/u/1/d/1xuY4upIooEeszZ_lCmeNx24eSFWe0rHe9ZdqH2xqVNk/pubhtml' # example url
+    # JSON_PATH = os.path.join(os.getcwd(), 'timeline_nlp.json') # example json
         
-    TL_HEIGHT = 500 # px
+    # TL_HEIGHT = 500 # px
 
 
-    # load data
-    json_text = ''
-    if True: #SOURCE_TYPE == 'json':
-        with open(JSON_PATH, "r") as f:
-            json_text = f.read()
-            print(json_text)
-            source_param = 'timeline_json'
-            source_block = f'var {source_param} = {json_text};'
-    elif SOURCE_TYPE == 'gdocs':
-        source_param = f'"{GDOCS_PATH}"'
-        source_block = ''
+    # # load data
+    # json_text = ''
+    # if True: #SOURCE_TYPE == 'json':
+    #     with open(JSON_PATH, "r") as f:
+    #         json_text = f.read()
+    #         print(json_text)
+    #         source_param = 'timeline_json'
+    #         source_block = f'var {source_param} = {json_text};'
+    # elif SOURCE_TYPE == 'gdocs':
+    #     source_param = f'"{GDOCS_PATH}"'
+    #     source_block = ''
 
 
-    # load css + js
-    if CDN_LOCAL:
-        with open(CSS_PATH, "r") as f:
-            css_text = f.read()
-            css_block = f'<head><style>{css_text}</style></head>'
+    # # load css + js
+    # if CDN_LOCAL:
+    #     with open(CSS_PATH, "r") as f:
+    #         css_text = f.read()
+    #         css_block = f'<head><style>{css_text}</style></head>'
 
-        with open(JS_PATH, "r") as f:
-            js_text = f.read()
-            js_block  = f'<script type="text/javascript">{js_text}</script>'
-    else:
-        css_block = f'<link title="timeline-styles" rel="stylesheet" href="{CDN_PATH}/css/timeline.css">'
-        js_block  = f'<script src="{CDN_PATH}/js/timeline.js"></script>'
-
-
-    # write html block
-    htmlcode = css_block + ''' 
-    ''' + js_block + '''
-
-        <div id='timeline-embed' style="width: 100%; height: ''' + str(TL_HEIGHT) +'''px; margin: 1px;"></div>
-
-        <script type="text/javascript">
-            var additionalOptions = {
-                start_at_end: false, is_embed:true,
-            }
-            '''+source_block+'''
-            timeline = new TL.Timeline('timeline-embed', '''+source_param+''', additionalOptions);
-        </script>'''
+    #     with open(JS_PATH, "r") as f:
+    #         js_text = f.read()
+    #         js_block  = f'<script type="text/javascript">{js_text}</script>'
+    # else:
+    #     css_block = f'<link title="timeline-styles" rel="stylesheet" href="{CDN_PATH}/css/timeline.css">'
+    #     js_block  = f'<script src="{CDN_PATH}/js/timeline.js"></script>'
 
 
-    # UI sections
-    components.html(htmlcode, height=TL_HEIGHT,)
+    # # write html block
+    # htmlcode = css_block + ''' 
+    # ''' + js_block + '''
 
-    st.divider() 
+    #     <div id='timeline-embed' style="width: 100%; height: ''' + str(TL_HEIGHT) +'''px; margin: 1px;"></div>
+
+    #     <script type="text/javascript">
+    #         var additionalOptions = {
+    #             start_at_end: false, is_embed:true,
+    #         }
+    #         '''+source_block+'''
+    #         timeline = new TL.Timeline('timeline-embed', '''+source_param+''', additionalOptions);
+    #     </script>'''
+
+
+    # # UI sections
+    # components.html(htmlcode, height=TL_HEIGHT,)
+
+    # st.divider() 
     
