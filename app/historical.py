@@ -95,7 +95,7 @@ def app():
         # Filter data based on the selected option
         if filter_option == 'Year-wise':
             # Year-wise filter
-            year = st.selectbox('Select Year', sorted(visuals['year'].unique()))
+            year = st.selectbox('Select Year (2019-23)', sorted(visuals['year'].unique()))
             filtered_data = visuals[visuals['year'] == year]
             
         elif filter_option == '6-Month-wise':
