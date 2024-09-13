@@ -300,7 +300,7 @@ def app():
                     with col1:
                         st.info('Monday')
                         if (X['day'] == 'Monday').any():
-                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Monday']['temp'].mean(), 2)) + '°C', delta = str(round(X[X['day'] == 'Mondday']['temp'].max(), 2)) + '°C', delta_color = "inverse")
+                            st.metric(label = 'Avg Temp: ', value = str(round(X[X['day'] == 'Monday']['temp'].mean(), 2)) + '°C', delta = str(round(X[X['day'] == 'Monday']['temp'].max(), 2)) + '°C', delta_color = "inverse")
                         else:
                             st.metric(label = 'Avg Temp: ', value = '--')
                         
